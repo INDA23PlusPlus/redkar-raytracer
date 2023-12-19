@@ -1,6 +1,3 @@
-#ifndef VEC3 // TODO: try removing this
-#define VEC3 // TODO: try removing this
-
 #include <cmath>
 #include <iostream>
 
@@ -74,5 +71,3 @@ inline vec3 operator /(const vec3 &v, double t) {
 inline vec3 normalize(vec3 v) {
 	return v / v.norm();
 }
-
-#endif
