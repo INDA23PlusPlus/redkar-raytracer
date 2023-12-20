@@ -9,15 +9,15 @@ using namespace std; // I stan using this
 int main() {
 
 	double ideal_dimensions = 16.0 / 9.0;
-	int window_width = 400; // basically the pixels
+	int window_width = 1280; // basically the pixels
 	int window_height = window_width / ideal_dimensions;
 	if (window_height == 0) window_height++;
 	
 	// eye and projector
 	point3 eye = point3(0, 0, 0);
-	double projector_width = 2.0;
+	double projector_width = 1.0;
 	double projector_height = projector_width / ( (double)(window_width) / (double) (window_height) );
-	double eye_to_projector_dist = 1.0;
+	double eye_to_projector_dist = 0.5;
 
 	vec3 x_edge = vec3(projector_width, 0, 0);
 	vec3 y_edge = vec3(0, -projector_height, 0);
