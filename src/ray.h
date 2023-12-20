@@ -10,7 +10,7 @@ public:
 
 	ray(const vec3 &origin, const vec3 &dirVec): origin(origin), dirVec(dirVec) {}
 
-	vec3 loc(double t) const {
+	point3 loc(double t) const {
 		return origin + t*dirVec;
 	}
 

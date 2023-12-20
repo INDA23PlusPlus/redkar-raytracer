@@ -1,3 +1,6 @@
+#ifndef VEC
+#define VEC
+
 #include <cmath>
 #include <iostream>
 
@@ -25,9 +28,9 @@ public:
 		z *= t;
 	}
 	void operator /=(double t) {
-		x *= t;
-		y *= t;
-		z *= t;
+		x /= t;
+		y /= t;
+		z /= t;
 	}
 	double norm_squared() const {
 		return x*x + y*y + z*z;
@@ -54,7 +57,7 @@ inline vec3 operator +(const vec3 &u, const vec3 &v) {
 	return vec3(u.x + v.x, u.y + v.y, u.z + v.z);
 }
 inline vec3 operator -(const vec3 &u, const vec3 &v) {
-	return vec3(u.x + v.x, u.y + v.y, u.z + v.z);
+	return vec3(u.x - v.x, u.y - v.y, u.z - v.z);
 }
 inline vec3 operator *(const vec3 &u, const vec3 &v) {
 	return vec3(u.x * v.x, u.y * v.y, u.z * v.z);
@@ -71,3 +74,5 @@ inline vec3 operator /(const vec3 &v, double t) {
 inline vec3 normalize(vec3 v) {
 	return v / v.norm();
 }
+
+#endif
