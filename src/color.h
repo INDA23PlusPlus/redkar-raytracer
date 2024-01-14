@@ -22,7 +22,7 @@ void color_to_ppm(color3 pixel) {
 color3 ray_to_color(vector<sphere> &sphere_list, const ray &r) {
 
 	// hard code the lightsource since there is only 1
-	sphere light(point3(-0.77, 0.4, -1), 0.1, color3(1, 1, 1));
+	sphere light(point3(-0.77, 0.4, -1), 0.1, color3(1, 1, 1), 1.0);
 
 	/*
 	bounceStats s1_bounce = s1.sphere_intersection(r);
@@ -43,22 +43,51 @@ color3 ray_to_color(vector<sphere> &sphere_list, const ray &r) {
 		return color3(0, 0, 0);
 	}
 	*/
-	double minDist = 10000000000.0;
-	bounceStats bst(false, 0.0, vec3(), vec3());
-	sphere hitSphere(point3(1000.0, 1000.0, 1000.0), 100000.0, vec3());
-	//cerr << "#objects: " << (int)sphere_list.size() << "\n";
-	for(auto &ball: sphere_list) {
-		bounceStats cur_bounce = ball.sphere_intersection(r);
-		if (cur_bounce.happened && cur_bounce.rayTravelDist < minDist) {
-			bst = cur_bounce;
-			minDist = cur_bounce.rayTravelDist;
-			hitSphere = ball;
+
+	ray cur_ray = r;
+	color3 ray_color(1, 1, 1);
+	color3 gathered_light(0, 0, 0);
+	bool hitSomething = false;
+	for(int i = 0; i < 4; i++) {
+
+		double minDist = 10000000000.0;
+		sphere hitSphere(point3(1000.0, 1000.0, 1000.0), 100000.0, vec3(), 0);
+		bounceStats bst(false, 0.0, vec3(), vec3());
+
+		for(auto &ball: sphere_list) {
+			bounceStats cur_bounce = ball.sphere_intersection(cur_ray);
+			if (cur_bounce.happened && cur_bounce.rayTravelDist < minDist) {
+				bst = cur_bounce;
+				minDist = cur_bounce.rayTravelDist;
+				hitSphere = ball;
+			}
 		}
+
+		if (bst.happened) {
+			hitSomething = true;
+			//cerr << "I hit something" << "\n";
+			//return hitSphere.material;
+			cur_ray.origin = bst.bouncePoint;
+			cur_ray.dirVec = random_vector();
+			if (cur_ray.dirVec.dot(bst.normal) < 0) {
+				cur_ray.dirVec = -1 * cur_ray.dirVec;
+			}
+			
+			color3 emittedLight = hitSphere.reflectance * hitSphere.material ;
+			gathered_light += emittedLight * ray_color;
+			ray_color = ray_color * hitSphere.material;
+		}
+		else {
+			break;
+		}
+
 	}
 	
-	if (bst.happened) {
-		//cerr << "I hit something" << "\n";
-		return hitSphere.material;
+	if (hitSomething) {
+		if (gathered_light.x > 1) gathered_light.x = 1;
+		if (gathered_light.y > 1) gathered_light.y = 1;
+		if (gathered_light.z > 1) gathered_light.z = 1;
+		return gathered_light;
 	}
 
 	vec3 unit_direction = r.dirVec / r.dirVec.norm();

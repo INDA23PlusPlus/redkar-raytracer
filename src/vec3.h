@@ -83,4 +83,10 @@ inline double random_double() { // putting this here, since vec3.h is included e
     return distribution(generator);
 }
 
+vec3 random_vector() {
+	vec3 rand_vec(random_double(), random_double(), random_double());
+	normalize(rand_vec);
+	return rand_vec;
+}
+
 #endif

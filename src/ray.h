@@ -13,7 +13,6 @@ public:
 	point3 loc(double t) const {
 		return origin + t*dirVec;
 	}
-
 };
 
 #endif

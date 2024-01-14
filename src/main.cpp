@@ -35,9 +35,9 @@ int main() {
 	
 	// objects
 	vector<sphere> sphere_list;
-	sphere_list.push_back(sphere(point3(-0.77, 0.4, -1), 0.1, color3(1, 1, 1))); // light source
-	sphere_list.push_back(sphere(point3(0, 0, -1), 0.3, color3(0, 0, 0)));
-	sphere_list.push_back(sphere(point3(0, 0.4, -1), 0.2, color3(0, 1, 0)));
+	sphere_list.push_back(sphere(point3(-0.77, 0.4, -1), 0.1, color3(1, 1, 1), 1)); // light source
+	sphere_list.push_back(sphere(point3(0, 0, -1), 0.3, color3(1, 0, 0), 0.2));
+	sphere_list.push_back(sphere(point3(0, 0.4, -1), 0.2, color3(0, 1, 0), 0.2));
 
 	// Render
 
