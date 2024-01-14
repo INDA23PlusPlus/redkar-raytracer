@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <random> 
 
 using namespace std;
 
@@ -52,6 +53,7 @@ public:
 };
 
 using point3 = vec3;
+using color3 = vec3;
 
 inline vec3 operator +(const vec3 &u, const vec3 &v) {
 	return vec3(u.x + v.x, u.y + v.y, u.z + v.z);
@@ -73,6 +75,12 @@ inline vec3 operator /(const vec3 &v, double t) {
 }
 inline vec3 normalize(vec3 v) {
 	return v / v.norm();
+}
+
+inline double random_double() { // putting this here, since vec3.h is included everywhere
+    static uniform_real_distribution<double> distribution(0.0, 1.0);
+    static mt19937 generator;
+    return distribution(generator);
 }
 
 #endif

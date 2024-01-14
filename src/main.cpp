@@ -30,10 +30,16 @@ int main() {
 	//point3 first_pixel = top_left_corner + dx/2.0 + dy/2.0;
 	//point3 first_pixel = top_left_corner + 0.5 * dx + 0.5 * dy;
 	point3 first_pixel = top_left_corner + 0.5*(dx + dy);
-	cerr << "top left : " << first_pixel.x << " " << first_pixel.y << " " << first_pixel.z << "\n";
+	//cerr << "top left : " << first_pixel.x << " " << first_pixel.y << " " << first_pixel.z << "\n";
+
+	
+	// objects
+	vector<sphere> sphere_list;
+	sphere_list.push_back(sphere(point3(-0.77, 0.4, -1), 0.1, color3(1, 1, 1))); // light source
+	sphere_list.push_back(sphere(point3(0, 0, -1), 0.3, color3(0, 0, 0)));
+	sphere_list.push_back(sphere(point3(0, 0.4, -1), 0.2, color3(0, 1, 0)));
 
 	// Render
-	//cerr << "spaces: " << x_edge.norm() / dx.norm() << "\n";
 
 	std::cout << "P3\n" << window_width << ' ' << window_height << "\n255\n";
 	
@@ -50,12 +56,15 @@ int main() {
 
 			point_cnt++;
 
-			color3 pixel = ray_to_color(cur_ray);
+			// TODO: add the planes list later
+			color3 pixel = ray_to_color(sphere_list, cur_ray);
 
 			//vec3 pixel = color(double(i)/(width-1), double(j)/(height-1), 0);
 			color_to_ppm(pixel);
         	}
     	}
+
+	cerr << "#rays: " << point_cnt << "\n";
 
 	//assert(point_cnt == (window_width-1) * (window_height-1));
 
