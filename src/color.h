@@ -22,7 +22,7 @@ void color_to_ppm(color3 pixel) {
 color3 ray_to_color(vector<sphere> &sphere_list, const ray &r) {
 
 	// hard code the lightsource since there is only 1
-	sphere light(point3(-0.77, 0.4, -1), 0.1, color3(1, 1, 1), 1.0);
+	//sphere light(point3(-0.77, 0.4, -1), 0.1, color3(1, 1, 1), 1.0);
 
 	/*
 	bounceStats s1_bounce = s1.sphere_intersection(r);
@@ -48,10 +48,10 @@ color3 ray_to_color(vector<sphere> &sphere_list, const ray &r) {
 	color3 ray_color(1, 1, 1);
 	color3 gathered_light(0, 0, 0);
 	bool hitSomething = false;
-	for(int i = 0; i < 4; i++) {
+	for(int i = 0; i < 6; i++) {
 
 		double minDist = 10000000000.0;
-		sphere hitSphere(point3(1000.0, 1000.0, 1000.0), 100000.0, vec3(), 0);
+		sphere hitSphere(point3(1000.0, 1000.0, 1000.0), 100000.0, vec3(), 0, vec3());
 		bounceStats bst(false, 0.0, vec3(), vec3());
 
 		for(auto &ball: sphere_list) {
@@ -69,13 +69,17 @@ color3 ray_to_color(vector<sphere> &sphere_list, const ray &r) {
 			//return hitSphere.material;
 			cur_ray.origin = bst.bouncePoint;
 			cur_ray.dirVec = random_vector();
+			//cerr << "cur_ray.dirVec: " << cur_ray.dirVec.x << " " << cur_ray.dirVec.y << " " << cur_ray.dirVec.z << "\n";
 			if (cur_ray.dirVec.dot(bst.normal) < 0) {
 				cur_ray.dirVec = -1 * cur_ray.dirVec;
 			}
 			
-			color3 emittedLight = hitSphere.reflectance * hitSphere.material ;
+			color3 emittedLight = hitSphere.reflectance * hitSphere.emittedColor; // TODO: wouldnt this be 1 * 0? which would make the 1 useless?
 			gathered_light += emittedLight * ray_color;
 			ray_color = ray_color * hitSphere.material;
+			//cerr << "emittedLight: " << emittedLight.x << " " << emittedLight.y << " " << emittedLight.z << "\n";
+			//cerr << ray_color.x << " " << ray_color.y << " " << ray_color.z << "\n";
+			//cerr << "gathered light: " << gathered_light.x << " " << gathered_light.y << " " << gathered_light.z << "\n";
 		}
 		else {
 			break;

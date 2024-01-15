@@ -19,8 +19,9 @@ struct sphere {
 	double radius;
 	color3 material;
 	double reflectance;
+	color3 emittedColor;
 
-	sphere(point3 c, double r, color3 m, double rf): center(c), radius(r), material(m), reflectance(rf) {}
+	sphere(point3 c, double r, color3 m, double rf, color3 ec): center(c), radius(r), material(m), reflectance(rf), emittedColor(ec) {}
 
 	bounceStats sphere_intersection(const ray &r) {
 		// quadratic formula:

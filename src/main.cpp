@@ -6,6 +6,8 @@
 
 using namespace std; // I stan using this 
 
+const int ITERATIONS = 5;
+
 int main() {
 
 	double ideal_dimensions = 16.0 / 9.0;
@@ -35,9 +37,17 @@ int main() {
 	
 	// objects
 	vector<sphere> sphere_list;
-	sphere_list.push_back(sphere(point3(-0.77, 0.4, -1), 0.1, color3(1, 1, 1), 1)); // light source
-	sphere_list.push_back(sphere(point3(0, 0, -1), 0.3, color3(1, 0, 0), 0.2));
-	sphere_list.push_back(sphere(point3(0, 0.4, -1), 0.2, color3(0, 1, 0), 0.2));
+
+	/* this one shows some raytracing
+	sphere_list.push_back(sphere(point3(-0.5, -0.4, -1), 0.1, color3(0, 0, 0), 1, color3(1, 1, 1))); // light source
+	sphere_list.push_back(sphere(point3(-0.5, 0, -1), 0.3, color3(1, 0, 0), 0, color3(1, 0, 0)));
+	sphere_list.push_back(sphere(point3(0, -0.4, -1), 0.2, color3(0, 1, 0), 0, color3(0, 1, 0)));
+	*/
+
+	// shows the raytracing better
+	sphere_list.push_back(sphere(point3(0.5, 0.07, -0.5), 0.3, color3(0, 0, 0), 1, color3(1, 1, 1))); // light source
+	sphere_list.push_back(sphere(point3(0, 0, -1), 0.2, color3(1, 0, 0), 0, color3(1, 0, 0)));
+	sphere_list.push_back(sphere(point3(0, -0.4, -1), 0.2, color3(0, 1, 0), 0, color3(0, 1, 0)));
 
 	// Render
 
@@ -57,10 +67,16 @@ int main() {
 			point_cnt++;
 
 			// TODO: add the planes list later
-			color3 pixel = ray_to_color(sphere_list, cur_ray);
+			
+			color3 average = vec3();
+			for(int iteration = 1; iteration <= ITERATIONS; iteration++) {
+				color3 pixel = ray_to_color(sphere_list, cur_ray);
+				average += pixel;
+			}
+			average /= ITERATIONS;
 
 			//vec3 pixel = color(double(i)/(width-1), double(j)/(height-1), 0);
-			color_to_ppm(pixel);
+			color_to_ppm(average);
         	}
     	}
 
