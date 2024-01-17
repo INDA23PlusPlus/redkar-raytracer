@@ -39,7 +39,7 @@ struct triangle {
 
 		vec3 r_cross_AC = cross(direction, AC);
 		double eps = 1e-6;
-		double det = normal.dot(r_cross_AC);
+		double det = AB.dot(r_cross_AC);
 		
 		if (-eps < det && det < eps) {
 			return bounceStats{false, 0.0, vec3(), vec3()};

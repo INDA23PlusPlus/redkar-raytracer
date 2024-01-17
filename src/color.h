@@ -48,8 +48,9 @@ color3 ray_to_color(vector<sphere> &sphere_list, const ray &r) {
 	color3 ray_color(1, 1, 1);
 	color3 gathered_light(0, 0, 0);
 	bool hitSomething = false;
-	for(int i = 0; i < 6; i++) {
+	double global_minDist = 100000000000.0;
 
+	for(int i = 0; i < 6; i++) {
 		double minDist = 10000000000.0;
 		sphere hitSphere(point3(1000.0, 1000.0, 1000.0), 100000.0, vec3(), 0, vec3());
 		bounceStats bst(false, 0.0, vec3(), vec3());
@@ -62,6 +63,8 @@ color3 ray_to_color(vector<sphere> &sphere_list, const ray &r) {
 				hitSphere = ball;
 			}
 		}
+
+		if (i == 0) global_minDist = min(minDist, global_minDist);
 
 		if (bst.happened) {
 			hitSomething = true;
@@ -96,12 +99,12 @@ color3 ray_to_color(vector<sphere> &sphere_list, const ray &r) {
 		return gathered_light;
 	}
 
-	triangle tri(point3(-0.4, 0.3, -1), point3(-0.4, -0.1, -1), point3(-0.3, 0, -1));
+	triangle tri(point3(-0.6, 0.45, -1), point3(-0.6, 0.25, -1), point3(-0.5, 0.15, -1));
 	cur_ray = r;
 	bounceStats triangleBounce = tri.triangle_intersection(cur_ray);
 	// TODO: fix the minDist problem
-	if (triangleBounce.happened && triangle.rayTravelDist < minDist) {
-		return color3(0, 0, 0);
+	if (triangleBounce.happened && triangleBounce.rayTravelDist < global_minDist) {
+		return color3(0, 1, 0);
 	}
 
 	vec3 unit_direction = r.dirVec / r.dirVec.norm();
