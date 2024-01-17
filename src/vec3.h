@@ -44,12 +44,6 @@ public:
 	double dot(const vec3 &v) {
 		return x*v.x + y*v.y + z*v.z;
 	}
-
-	vec3 cross(const vec3 &u, const vec3 &v) {
-		return vec3(u.y * v.z - u.z * v.y,
-		     	    u.z * v.x - u.x * v.z,
-		     	    u.x * v.y - u.y * v.x);
-	}
 };
 
 using point3 = vec3;
@@ -75,6 +69,11 @@ inline vec3 operator /(const vec3 &v, double t) {
 }
 inline vec3 normalize(vec3 v) {
 	return v / v.norm();
+}
+inline vec3 cross(const vec3 &u, const vec3 &v) {
+	return vec3(u.y * v.z - u.z * v.y,
+		    u.z * v.x - u.x * v.z,
+		    u.x * v.y - u.y * v.x);
 }
 
 inline double random_double() { // putting this here, since vec3.h is included everywhere

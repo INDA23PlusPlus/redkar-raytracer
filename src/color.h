@@ -74,9 +74,12 @@ color3 ray_to_color(vector<sphere> &sphere_list, const ray &r) {
 				cur_ray.dirVec = -1 * cur_ray.dirVec;
 			}
 			
-			color3 emittedLight = hitSphere.reflectance * hitSphere.emittedColor; // TODO: wouldnt this be 1 * 0? which would make the 1 useless?
+			color3 emittedLight = hitSphere.reflectance * hitSphere.emittedColor; 
+			double angle_adjustment = bst.normal.dot(cur_ray.dirVec);
+			//cerr << "adjustment: " << angle_adjustment << "\n";
 			gathered_light += emittedLight * ray_color;
-			ray_color = ray_color * hitSphere.material;
+			//ray_color = ray_color * hitSphere.material;
+			ray_color = ray_color * hitSphere.material * angle_adjustment * 2;
 			//cerr << "emittedLight: " << emittedLight.x << " " << emittedLight.y << " " << emittedLight.z << "\n";
 			//cerr << ray_color.x << " " << ray_color.y << " " << ray_color.z << "\n";
 			//cerr << "gathered light: " << gathered_light.x << " " << gathered_light.y << " " << gathered_light.z << "\n";
@@ -84,7 +87,6 @@ color3 ray_to_color(vector<sphere> &sphere_list, const ray &r) {
 		else {
 			break;
 		}
-
 	}
 	
 	if (hitSomething) {
@@ -92,6 +94,14 @@ color3 ray_to_color(vector<sphere> &sphere_list, const ray &r) {
 		if (gathered_light.y > 1) gathered_light.y = 1;
 		if (gathered_light.z > 1) gathered_light.z = 1;
 		return gathered_light;
+	}
+
+	triangle tri(point3(-0.4, 0.3, -1), point3(-0.4, -0.1, -1), point3(-0.3, 0, -1));
+	cur_ray = r;
+	bounceStats triangleBounce = tri.triangle_intersection(cur_ray);
+	// TODO: fix the minDist problem
+	if (triangleBounce.happened && triangle.rayTravelDist < minDist) {
+		return color3(0, 0, 0);
 	}
 
 	vec3 unit_direction = r.dirVec / r.dirVec.norm();
