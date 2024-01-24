@@ -1,5 +1,4 @@
-#ifndef VEC
-#define VEC
+#pragma once
 
 #include <cmath>
 #include <iostream>
@@ -87,5 +86,3 @@ vec3 random_vector() {
 	normalize(rand_vec);
 	return rand_vec;
 }
-
-#endif

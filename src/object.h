@@ -1,5 +1,4 @@
-#ifndef SPHERE
-#define SPHERE
+#pragma once
 
 #include <random>
 #include "vec3.h"
@@ -112,8 +111,3 @@ struct sphere {
 	}
 		
 };
-
-
-
-#endif
-

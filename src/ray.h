@@ -1,5 +1,4 @@
-#ifndef RAY
-#define RAY
+#pragma once
 
 #include "vec3.h"
 
@@ -14,5 +13,3 @@ public:
 		return origin + t*dirVec;
 	}
 };
-
-#endif

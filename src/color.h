@@ -1,5 +1,4 @@
-#ifndef COLOR
-#define COLOR
+#pragma once
 
 #include <iostream>
 #include <random>
@@ -118,7 +117,3 @@ color3 ray_to_color(vector<sphere> &sphere_list, const ray &r) {
 	//assert(a < (1.0 -a));
 	//return ((1.0 - a) > a ? color3(1.0, 0.0, 0.0) : color3(0.0, 0.0, 1.0));
 }
-
-
-#endif
-
